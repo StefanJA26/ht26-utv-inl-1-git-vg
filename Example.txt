@@ -1,0 +1,5 @@
+Namn: Stefan
+Program: TextEdit
+Status: Under utveckling
+Installation: Ej dokumenterad
+Användning: Ej dokumenterad
