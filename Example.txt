@@ -1,5 +1,5 @@
 Namn: Stefan
 Program: TextEdit
-Status: Under utveckling
-Installation: Ej dokumenterad
-Användning: Ej dokumenterad
+Status: Redo för deployment
+Installation: Se dokumentation
+Användning: Kör programmet och mata in text
