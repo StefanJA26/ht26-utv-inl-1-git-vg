@@ -1,5 +1,6 @@
 Namn: Stefan
 Program: TextEdit
-Status: Redo för deployment
+Status: Redo för publik deployment
 Installation: Ladda ned och kör installer
 Användning: Kör programmet och mata in text
+Releaseversion: 0.1
