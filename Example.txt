@@ -1,5 +1,5 @@
 Namn: Stefan
 Program: TextEdit
-Status: Under utveckling
-Installation: Ej dokumenterad
+Status: Testas
+Installation: Ladda ned och kör installer
 Användning: Ej dokumenterad
