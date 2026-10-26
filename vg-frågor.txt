@@ -1,0 +1,103 @@
+VG frågor för inlämningsuppgift 1
+
+Git Merge & Git Rebase
+
+* Det första jag bör nämna är hur merge och rebase kommandona faktiskt skiljer
+  sig åt. De är relativt lika i vad de utför, att slå ihop brancher, skillnaden
+  ligger i hur de påverkar commit historiken.
+
+  + Merge kommandot skapar en merge commit där två brancher möts, nästan som en
+    knypunkt. Detta skapar en tydlig punkt i historiken där en merge av två brancher
+    skedde, commit (M) i exemplet. En merge commits måste dock inte alltid skapas,
+    om det inte skett några ändringar i main sedan man branchade av till side
+    så krävs ingen separat commit, då gör main istället en "fast-forward" till
+    senaste commiten i side.
+
+    - exempel:   main  a--b--c--d--e--(M)--f--g osv.. 
+                        \             /
+                 side    1----2------3
+
+  
+  + Rebase, "gör om" eller re-play:ar commits och skapar nya i samma turordning med
+    unika hash-id. Detta gör att ingen merge commit krävs, och ger en renare commit
+    historik, däremot är det inte lika tydlig när brancherna slagits ihop.
+
+    - Rebase är ett bra sätt att ta in ändringar från main till sin feature branch
+      för att testa och se allt fungerar som det ska. När man skapar en pull request
+      för att merge:a in sin feature-branch till main använder många merge istället då
+      rebase skriver om historiken som andra kan i teamet kanske jobbar utifrån.
+
+      - Överlag känns rebase säkrare att köra på egna projekt, eller att som ovan
+        begränsar det till att ta ändringar från main till en feature-branch och mindre
+        attraktivt att använda för att ta in ändring till main.
+      
+      - exempel:        main  a--b--d--g
+                                  \
+                        side       c--e--f
+
+      - efter rebase    main  a--b--d--g
+                                        \
+                        side             C--E--F
+
+      - i exemplet är versalerna C, E och F nya versioner av originalcommitsen på side
+        som re-playats över/efter main commiten "g"
+    
+      - break down av rebase kommandot
+
+        - du är på side-branch och vill ta in ändringar från senaste main
+
+          * git rebase origin/main
+          
+        - detta betyder i princip, hämta HEAD från origin/main branchen, använd det som bas
+          och re-play:a dina side-branch commits ovanpå/efter basen.
+
+
+
+************************
+*** Exempel Workflow ***
+************************
+
+* I mitt exempel har jag valt att simulera lite dokumentation för en programvara.
+  Efter att ha initierat repot, skapat .gitignore och README så skapade jag ett Example.txt
+  dokument som innehåller olika information om projektet.
+
+  - Jag skapar en feature-installation branch där jag lägger till information om installering
+    av programvaran samt uppdaterar status. Jag commitar och pushar ändringarna.
+
+  - Jag skapar också en feature-usage branch där jag lägger till information om hur
+    man använder programvaran samt uppdateras status även där. Jag commitar och pushar ändringarna.
+
+  - Nu vill jag merga ihop feature branchernas dokumentation, men båda brancherna har olika
+    versioner av Example.txt och en merge konflikt uppstår.
+
+      + Jag löser konfliken genom att rensa upp dubbeldata och behåller den mest up to date och
+        sanningsenliga versionen av dokumentet.
+
+  
+  - Nu vill jag ha den uppdaterade dokumentationen i main så jag byter till main och mergar in
+    feature-usage och pushar upp den.
+
+  - Jag gör en ändring på main, commitar och pushar upp den.
+
+  - Jag byter branch tillbaka till feature-usage och kör en rebase main, jag får en konflikt då
+    filerna inte matchar. Jag löser konfliken genom att fixa filen och kör git rebase --continue.
+    Jag pushar upp till remote.
+
+
+****************
+*** Historik ***
+****************
+
+  * 8433c11 (HEAD -> main, origin/main, feature-usage) rebase added release and version notes to Example.txt
+  * 7130699 added deployed to Example.txt
+  | * 1612e3b (origin/feature-usage) added release and version notes to Example.txt
+  |/
+  *   60f1add merge install and usage doc in Example.txt
+  |\
+  | * ee0b85d (origin/feature-install, feature-install) added installation info to Example.txt
+  * | 4e03aee added usage info to Example
+  |/
+  * 77a420a added Example.txt
+  * 53b857e added README.md
+  * 0331399 added .gitignore
+
