@@ -3,3 +3,4 @@ Program: TextEdit
 Status: Deployed
 Installation: Ladda ned och kör installer
 Användning: Kör programmet och mata in text
+Releaseversion: 0.1
